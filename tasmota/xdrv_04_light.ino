@@ -2838,6 +2838,13 @@ void CmndDimmer(void)
   } else {
     ResponseCmndNumber(dimmer);
   }
+  char cmnd_status[10];  // STATUS11
+  snprintf_P(cmnd_status, sizeof(cmnd_status), PSTR(D_CMND_DIMMER));
+  MqttPublishPayloadPrefixTopic_P(STAT, cmnd_status, String(XdrvMailbox.payload).c_str());
+
+  snprintf_P(cmnd_status, sizeof(cmnd_status), PSTR(D_CMND_POWER"1"));
+  MqttPublishPayloadPrefixTopic_P(STAT, cmnd_status, GetStateText(XdrvMailbox.payload));
+
   TasmotaGlobal.skip_light_fade = false;
 }
 
